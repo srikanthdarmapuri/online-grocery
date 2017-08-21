@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <h3>Item Details</h3>
+  </div>
+  <div class="row">
+    <a class="back-to-list" routerLinkActive="active" routerLink="/">Back to Item List</a>
+  </div>
+  <div *ngIf="itemDetail">
+    <div class="row alert alert-danger" *ngIf="!itemDetail.status">{{itemDetail.message}}</div>
+    <div class="justify-content-center" *ngIf="itemDetail.status">
+      <div class="row">
+        <h3>{{itemDetail.data.title}}</h3>
+      </div>
+
+      <div class="row">
+        <p>{{itemDetail.data.notes}}</p>
+      </div>
+      <div class="row">
+        <button type="button" (click)="onDelete()" class="btn btn-danger addMarginRight">Delete</button>
+        <button routerLinkActive="active" routerLink="/itemedit/{{itemDetail.data._id}}" type="button" class="btn btn-primary">Edit</button>
+        <label class="switch">
+            <input [(ngModel)]="itemDetail.data.purchased" (change)="onPurchase()" type="checkbox">
+            <span class="slider">
+                <span>Purchased</span>
+                <span>Purchase</span>
+            </span>
+        </label>
+      </div>
+    </div>
+    <div class="modal fade show" [class.visible]="onShowModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm Delete</h5>
+            <button type="button" (click)="onClose()" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete this item ?</p>
+            <p *ngIf="onDeleteResponse" class="alert" [class.alert-success]="onDeleteResponse.status" [class.alert-danger]="!onDeleteResponse.status">{{onDeleteResponse.message}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" (click)="onConfirmDelete()" class="btn btn-primary">Yes</button>
+            <button type="button" (click)="onClose()" class="btn btn-secondary" data-dismiss="modal">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
